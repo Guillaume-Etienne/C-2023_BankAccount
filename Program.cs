@@ -17,10 +17,10 @@ namespace Bankscan
 
             var input = File.ReadAllLines(sourceFile);
 
-            foreach (var line in input)
-            {
-                Console.WriteLine(line);
-            }
+            //foreach (var line in input)
+            //{
+            //    Console.WriteLine(line);
+            //}
 
             SplitEntries splitEntries = new SplitEntries();
             int ammountOfEntries = splitEntries.AmmountOfEntries(sourceFile);
@@ -30,15 +30,22 @@ namespace Bankscan
             var splittedEntries = splitEntries.SplitString(input);
 
 
-            // 
 
-            Console.WriteLine(splittedEntries[0]);
-            Console.WriteLine(splittedEntries[0].Length);
+            // Loop into Translation's loop
+            
+            foreach (var splittedEntry in splittedEntries)
+            {
+                Console.WriteLine(splittedEntry);
 
-            List<string> test = splitEntries.SplitNumber(splittedEntries[0]);
-                    
+                List<string> splittedNumbers = splitEntries.SplitNumber(splittedEntry);
 
-
+                foreach (var number in splittedNumbers)
+                {
+                    var test = splitEntries.TranslateToNumber(number);
+                    Console.Write(test);
+                }
+                Console.WriteLine();
+            }
 
             Console.ReadLine();
         }
