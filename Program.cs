@@ -12,15 +12,43 @@ namespace Bankscan
     {
         static void Main(string[] args)
         {
-            var sourceFile = "C:/temp/account.txt";
-            //var targetFile = "C:/temp/resultat.txt";
+            //string sourceFile = "c:/temp/account.txt";
+            //var input = File.ReadAllLines(sourceFile);
 
-            var input = File.ReadAllLines(sourceFile);
-
-            //foreach (var line in input)
+            //if (args.Length == 1)
             //{
-            //    Console.WriteLine(line);
+            //    try
+            //    {
+            //        sourceFile = args[0];
+            //        input = File.ReadAllLines(sourceFile);
+            //    }
+            //    catch (FileNotFoundException)
+            //    {
+            //        Console.WriteLine("Votre Document n'a pas été trouvé, On prend la valeur par défaut");
+            //        sourceFile = "c:/temp/account.txt";
+            //        input = File.ReadAllLines(sourceFile);
+            //    }
             //}
+
+
+            string sourceFile = args.Length == 1 ? args[0] : "c:/temp/account.txt";
+            string[] input;
+
+            try
+            {
+                input = File.ReadAllLines(sourceFile);
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Votre Document n'a pas été trouvé, On prend la valeur par défaut");
+                sourceFile = "c:/temp/account.txt";
+                input = File.ReadAllLines(sourceFile);
+            }
+
+            Console.WriteLine("On va donc taper dans le fichier : " +sourceFile);
+            
+
+            
 
             SplitEntries splitEntries = new SplitEntries();
             int ammountOfEntries = splitEntries.AmmountOfEntries(sourceFile);
