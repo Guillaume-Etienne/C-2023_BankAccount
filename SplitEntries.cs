@@ -54,11 +54,10 @@ namespace Bankscan
 
                 string triple1 = stringArray.Substring(increment, 3);                
                 string triple2 = stringArray.Substring(increment + 28, 3);                
-                string triple3 = stringArray.Substring(increment + 28 * 2, 3);
-                
+                string triple3 = stringArray.Substring(increment + 28 * 2, 3);                
                 
                 string tripleComplet = triple1 + triple2 + triple3;
-                //Console.WriteLine("Triple trouvé : " + tripleComplet);
+               
                 entrieSplittedOneByOne.Add(tripleComplet);
             }
                         
@@ -70,8 +69,23 @@ namespace Bankscan
             Digitdictionary digitDictionary = new Digitdictionary();
             Dictionary<int, string> templates = digitDictionary.digitTemplates;
             int key = templates.First(x => x.Value == entryToTranslate).Key;
-            //Console.WriteLine("Dans la fonction : " + key);
+            
             return key;
+        }
+        public int CheckIfAccountValid(string account)     // Vérifie si le compte est correcte d'après l'équation fournie
+        {         
+            int[] weights = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };   // les dn (définis par la position du chiffre à tester)
+            int sum = 0;
+
+            for (int i = 0; i < 9; i++)
+            {
+                int digit = int.Parse(account[i].ToString());
+                sum += digit * weights[i];                
+            }
+
+            int remainder = sum % 11;
+              
+            return remainder;
         }
     }
 }

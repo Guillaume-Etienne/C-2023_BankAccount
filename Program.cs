@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace Bankscan
@@ -12,25 +9,6 @@ namespace Bankscan
     {
         static void Main(string[] args)
         {
-            //string sourceFile = "c:/temp/account.txt";
-            //var input = File.ReadAllLines(sourceFile);
-
-            //if (args.Length == 1)
-            //{
-            //    try
-            //    {
-            //        sourceFile = args[0];
-            //        input = File.ReadAllLines(sourceFile);
-            //    }
-            //    catch (FileNotFoundException)
-            //    {
-            //        Console.WriteLine("Votre Document n'a pas été trouvé, On prend la valeur par défaut");
-            //        sourceFile = "c:/temp/account.txt";
-            //        input = File.ReadAllLines(sourceFile);
-            //    }
-            //}
-
-
             string sourceFile = args.Length == 1 ? args[0] : "c:/temp/account.txt";
             string[] input;
 
@@ -49,7 +27,7 @@ namespace Bankscan
             
 
             
-
+            // Identifier le nombre d'entrée
             SplitEntries splitEntries = new SplitEntries();
             int ammountOfEntries = splitEntries.AmmountOfEntries(sourceFile);
             Console.WriteLine("Nombre d'entrée : " + ammountOfEntries);
@@ -66,13 +44,18 @@ namespace Bankscan
                 Console.WriteLine(splittedEntry);
 
                 List<string> splittedNumbers = splitEntries.SplitNumber(splittedEntry);
+                string numberSequenceTranslated=null;
 
                 foreach (var number in splittedNumbers)
                 {
-                    var test = splitEntries.TranslateToNumber(number);
-                    Console.Write(test);
+                    var numberTranslated = splitEntries.TranslateToNumber(number);
+                    numberSequenceTranslated += numberTranslated;                    
                 }
-                Console.WriteLine();
+
+                Console.WriteLine(numberSequenceTranslated);
+                int checkResult = splitEntries.CheckIfAccountValid(numberSequenceTranslated);
+                if (checkResult == 0) { Console.WriteLine("Numéro vérifié, il est valide."); }
+                else { Console.WriteLine("Ce compte est FAUX d'après le vérificateur"); }
             }
 
             Console.ReadLine();
