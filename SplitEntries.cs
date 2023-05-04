@@ -65,12 +65,32 @@ namespace Bankscan
         }
         public int TranslateToNumber(string entryToTranslate)
         {
-            //tester le triple et retourner sa traduction
+            //tester le triple et retourner sa traduction  ------ retourne -1 si pas de correspondance ----------
             Digitdictionary digitDictionary = new Digitdictionary();
             Dictionary<int, string> templates = digitDictionary.digitTemplates;
-            int key = templates.First(x => x.Value == entryToTranslate).Key;
-            
+
+            //int key = templates.First(x => x.Value == entryToTranslate).Key;
+
+            //if (key >= 0 && key <=9)
+            //{
+            //    return key;
+            //}
+
+            //return -1;
+
+            int key;
+            try
+            {
+                key = templates.First(x => x.Value == entryToTranslate).Key;
+            }
+            catch (InvalidOperationException)
+            {
+                key = -1;
+            }
+
             return key;
+
+
         }
         public int CheckIfAccountValid(string account)     // Vérifie si le compte est correcte d'après l'équation fournie
         {         
