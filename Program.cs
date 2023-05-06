@@ -9,7 +9,7 @@ namespace Bankscan
     {
         static void Main(string[] args)
         {
-            string sourceFile = args.Length >= 1 ? args[0] : "c:/temp/account.txt" ;   // on peut rentrer deux arguments séparés par des espaces
+            string sourceFile = args.Length >= 1 ? args[0] : "c:/temp/account3.txt" ;   // on peut rentrer deux arguments séparés par des espaces
             string destinationFile = args.Length == 2 ? args[1] : "c:/temp/result.txt";
             
             string[] input;
@@ -30,10 +30,9 @@ namespace Bankscan
             Console.WriteLine("La sortie se fera dans  : " + destinationFile);
 
 
-            // Identifier le nombre d'entrée
+            // Identifier le nombre d'entrée (non nécessaire pour le moment)
             SplitEntries splitEntries = new SplitEntries();
-            int ammountOfEntries = splitEntries.AmmountOfEntries(sourceFile);
-            Console.WriteLine("Nombre d'entrée : " + ammountOfEntries);
+            
 
             // Split into Entities         
             var splittedEntries = splitEntries.SplitString(input);
@@ -72,10 +71,27 @@ namespace Bankscan
 
                 var output = numberSequenceTranslated.ToString();
 
+                FixUnreadable fixUnreadable = new FixUnreadable();     //pour initialiser la class
+
                 if (errorTranslating)
                 { 
-                    Console.WriteLine("Erreur !");
-                    output += " ILL";
+                    Console.WriteLine("Erreur  dans ce compte !");
+                    
+                                        
+                    var numberSequenceFixed = fixUnreadable.TryToFix(numberSequenceTranslated);
+                    if(numberSequenceFixed == -1)
+                    {
+                        output += " AMB";
+                    }
+                    else if (numberSequenceFixed == 0)
+                    {
+                        output += " ILL";
+                    }
+                    else
+                    {
+                        output = numberSequenceFixed.ToString();
+                    }
+
                 }
                 else
                 {
@@ -84,7 +100,10 @@ namespace Bankscan
                     else
                     { 
                         Console.WriteLine("Ce compte est FAUX d'après le vérificateur");
+                        
+                        // on va donc devoir essayer d'imaginer ce qu'il peut être
                         output += " ERR";
+
                     }
                 }
                 

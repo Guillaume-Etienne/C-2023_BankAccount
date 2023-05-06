@@ -68,16 +68,7 @@ namespace Bankscan
             //tester le triple et retourner sa traduction  ------ retourne -1 si pas de correspondance ----------
             Digitdictionary digitDictionary = new Digitdictionary();
             Dictionary<int, string> templates = digitDictionary.digitTemplates;
-
-            //int key = templates.First(x => x.Value == entryToTranslate).Key;
-
-            //if (key >= 0 && key <=9)
-            //{
-            //    return key;
-            //}
-
-            //return -1;
-
+            
             int key;
             try
             {
@@ -103,7 +94,7 @@ namespace Bankscan
                 sum += digit * weights[i];                
             }
 
-            int remainder = sum % 11;
+            int remainder = sum % 11;               // le résultat doit être 0 pour un compte valide
               
             return remainder;
         }
