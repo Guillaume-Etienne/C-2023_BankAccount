@@ -72,8 +72,7 @@ namespace Bankscan
 
             Console.WriteLine("CheckThemAll a bossé sur : " + resultCount + " Comptes");
 
-            int numberOFPotentialRealAccount = checkResult.Count(x => x == 0);
-            
+            int numberOFPotentialRealAccount = checkResult.Count(x => x == 0);            
 
             if (numberOFPotentialRealAccount == 1)
             {
@@ -101,57 +100,44 @@ namespace Bankscan
             List<string> listOfPossibleAccount = new List<string>();
             // changer tout les chiffres par leur digiswapPossibilities
             
-            // test gui :
+            // Doit être inintialisée avec le compte à tester
             listOfPossibleAccount.Add(bankAccountInError);
-            // fin Test
+            // Va être retournée avec tous les comptent possible
             
 
-            List<string> allNumberPossible = SwapAllNumbers(listOfPossibleAccount, bankAccountInError);
+            List<string> allNumberPossible = SwapAllNumbersinERR(listOfPossibleAccount, bankAccountInError);
             
             Console.WriteLine("Possibilités trouvées : " + allNumberPossible.Count);
 
-            
-            
-
-            
-
+            // Va checker tous les comptes possibles et voir s'il sont valides
             int resultOfCheckThemAll = CheckThemAll(allNumberPossible);
 
-            // -------------------------
+            
             return resultOfCheckThemAll;
         }
 
-        public List<string> SwapAllNumbers(List<string> workingtList, string input, int index=0)
+        public List<string> SwapAllNumbersinERR(List<string> workingtList, string input, int index=0)
         {            
             Digitdictionary digitDictionary = new Digitdictionary();
             Dictionary<char, char[]> swapDictionary = digitDictionary.swapDictionary;
-
-            Console.WriteLine("----------");
-            Console.WriteLine("index : " + index);
-
+            
             if (index == input.Length)
             {
                 return workingtList;
             }
 
             List<string> newWorkingList = new List<string>();
-
             char currentChar = input[index];
 
-            Console.WriteLine("currentChar : " + currentChar);
-            
+                        
             if (swapDictionary.ContainsKey(currentChar))
             {
-                char[] possibleChars = swapDictionary[currentChar];
-
-                                    
+                char[] possibleChars = swapDictionary[currentChar];                                    
 
                 foreach (char possibleChar in possibleChars)
-                {   
-                    Console.WriteLine("possibleChar : " + possibleChar);
+                {                       
                     foreach (string workingString in workingtList)
-                    {
-                        Console.WriteLine("workingString : " + workingString);
+                    {                        
                         string newString = workingString.Substring(0, index) + possibleChar + workingString.Substring(index + 1);
                         newWorkingList.Add(newString);
                     }
@@ -165,7 +151,7 @@ namespace Bankscan
                 }
             }
 
-            return SwapAllNumbers(newWorkingList, input, index + 1);
+            return SwapAllNumbersinERR(newWorkingList, input, index + 1);
         }
     }
 }

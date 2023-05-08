@@ -9,7 +9,7 @@ namespace Bankscan
     {
         static void Main(string[] args)
         {
-            string sourceFile = args.Length >= 1 ? args[0] : "c:/temp/account4.txt" ;   // on peut rentrer deux arguments séparés par des espaces
+            string sourceFile = args.Length >= 1 ? args[0] : "c:/temp/account3.txt" ;   // on peut rentrer deux arguments séparés par des espaces
             string destinationFile = args.Length == 2 ? args[1] : "c:/temp/result.txt";
             
             string[] input;
@@ -78,7 +78,7 @@ namespace Bankscan
                     Console.WriteLine("Compte ILLisible !");
                     
                                         
-                    var numberSequenceFixed = fixUnreadable.TryToFixIll(numberSequenceTranslated);
+                    var numberSequenceFixed = fixUnreadable.TryToFixIll(numberSequenceTranslated);   // va tester toutes les valeurs possibles sur les "?"
                     if(numberSequenceFixed == -1)
                     {
                         output += " AMB";
@@ -96,14 +96,28 @@ namespace Bankscan
                 else
                 {
                     int checkResult = splitEntries.CheckIfAccountValid(numberSequenceTranslated);
-                    if (checkResult == 0) { Console.WriteLine("Numéro vérifié, il est valide."); }
+                    if (checkResult == 0) 
+                    { 
+                        Console.WriteLine("Numéro vérifié, il est valide.");    //Pas besoin de modifier output
+                    }
                     else
                     { 
                         Console.WriteLine("Ce compte est FAUX d'après le vérificateur");
 
                         // on va donc devoir essayer d'imaginer ce qu'il peut être
-                        int toto = fixUnreadable.TryToFixErr(output);
-                        output += " ERR";
+                        int NumberInERRfixed = fixUnreadable.TryToFixErr(output);
+                        if (NumberInERRfixed == -1)
+                        {
+                            output += " AMB";
+                        }
+                        else if (NumberInERRfixed == 0)
+                        {
+                            output += " ILL";
+                        }
+                        else
+                        {
+                            output = NumberInERRfixed.ToString();
+                        }
 
                     }
                 }
