@@ -9,7 +9,7 @@ namespace Bankscan
     {
         static void Main(string[] args)
         {
-            string sourceFile = args.Length >= 1 ? args[0] : "c:/temp/account3.txt" ;   // on peut rentrer deux arguments séparés par des espaces
+            string sourceFile = args.Length >= 1 ? args[0] : "c:/temp/account4.txt" ;   // on peut rentrer deux arguments séparés par des espaces
             string destinationFile = args.Length == 2 ? args[1] : "c:/temp/result.txt";
             
             string[] input;
@@ -75,10 +75,10 @@ namespace Bankscan
 
                 if (errorTranslating)
                 { 
-                    Console.WriteLine("Erreur  dans ce compte !");
+                    Console.WriteLine("Compte ILLisible !");
                     
                                         
-                    var numberSequenceFixed = fixUnreadable.TryToFix(numberSequenceTranslated);
+                    var numberSequenceFixed = fixUnreadable.TryToFixIll(numberSequenceTranslated);
                     if(numberSequenceFixed == -1)
                     {
                         output += " AMB";
@@ -100,8 +100,9 @@ namespace Bankscan
                     else
                     { 
                         Console.WriteLine("Ce compte est FAUX d'après le vérificateur");
-                        
+
                         // on va donc devoir essayer d'imaginer ce qu'il peut être
+                        int toto = fixUnreadable.TryToFixErr(output);
                         output += " ERR";
 
                     }

@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//*** TryToFixIll : for ILL : identify where are the '?'
+//*** ReplaceAllQM : for ILL : replace  '?' by 0-9
+//*** CheckThemAll : for ILL and ERR : Check if they are valid
+//*** TryToFixErr : for ERR
 
 namespace Bankscan
 {
-    class FixUnreadable
+    class FixUnreadable      
     {
-        public int TryToFix(string bankAccountInError)
+        public int TryToFixIll(string bankAccountInError)
         {
             List<int> listOfIndexMistakes = new List<int>(); 
             
@@ -90,5 +94,78 @@ namespace Bankscan
             
         }
 
+        public int TryToFixErr(string bankAccountInError)
+        {
+            Console.WriteLine("--- Try To fix ERR lancé sur  : " + bankAccountInError);
+
+            List<string> listOfPossibleAccount = new List<string>();
+            // changer tout les chiffres par leur digiswapPossibilities
+            
+            // test gui :
+            listOfPossibleAccount.Add(bankAccountInError);
+            // fin Test
+            
+
+            List<string> allNumberPossible = SwapAllNumbers(listOfPossibleAccount, bankAccountInError);
+            
+            Console.WriteLine("Possibilités trouvées : " + allNumberPossible.Count);
+
+            
+            
+
+            
+
+            int resultOfCheckThemAll = CheckThemAll(allNumberPossible);
+
+            // -------------------------
+            return resultOfCheckThemAll;
+        }
+
+        public List<string> SwapAllNumbers(List<string> workingtList, string input, int index=0)
+        {            
+            Digitdictionary digitDictionary = new Digitdictionary();
+            Dictionary<char, char[]> swapDictionary = digitDictionary.swapDictionary;
+
+            Console.WriteLine("----------");
+            Console.WriteLine("index : " + index);
+
+            if (index == input.Length)
+            {
+                return workingtList;
+            }
+
+            List<string> newWorkingList = new List<string>();
+
+            char currentChar = input[index];
+
+            Console.WriteLine("currentChar : " + currentChar);
+            
+            if (swapDictionary.ContainsKey(currentChar))
+            {
+                char[] possibleChars = swapDictionary[currentChar];
+
+                                    
+
+                foreach (char possibleChar in possibleChars)
+                {   
+                    Console.WriteLine("possibleChar : " + possibleChar);
+                    foreach (string workingString in workingtList)
+                    {
+                        Console.WriteLine("workingString : " + workingString);
+                        string newString = workingString.Substring(0, index) + possibleChar + workingString.Substring(index + 1);
+                        newWorkingList.Add(newString);
+                    }
+                }
+            }
+            else
+            {
+                foreach (string workingString in workingtList)
+                {
+                    newWorkingList.Add(workingString);
+                }
+            }
+
+            return SwapAllNumbers(newWorkingList, input, index + 1);
+        }
     }
 }
