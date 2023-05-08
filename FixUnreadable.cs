@@ -98,14 +98,8 @@ namespace Bankscan
             Console.WriteLine("--- Try To fix ERR lancé sur  : " + bankAccountInError);
 
             List<string> listOfPossibleAccount = new List<string>();
-            // changer tout les chiffres par leur digiswapPossibilities
             
-            // Doit être inintialisée avec le compte à tester
-            listOfPossibleAccount.Add(bankAccountInError);
-            // Va être retournée avec tous les comptent possible
-            
-
-            List<string> allNumberPossible = SwapAllNumbersinERR(listOfPossibleAccount, bankAccountInError);
+            List<string> allNumberPossible = Swap10NumbersinERR(listOfPossibleAccount, bankAccountInError);
             
             Console.WriteLine("Possibilités trouvées : " + allNumberPossible.Count);
 
@@ -127,11 +121,8 @@ namespace Bankscan
             }
 
             List<string> newWorkingList = new List<string>();
-            char currentChar = input[index];
-
-                        
-            if (swapDictionary.ContainsKey(currentChar))
-            {
+            char currentChar = input[index];                                 
+            
                 char[] possibleChars = swapDictionary[currentChar];                                    
 
                 foreach (char possibleChar in possibleChars)
@@ -142,16 +133,36 @@ namespace Bankscan
                         newWorkingList.Add(newString);
                     }
                 }
-            }
-            else
+            
+            return SwapAllNumbersinERR(newWorkingList, input, index + 1);
+        }
+
+        public List<string> Swap10NumbersinERR(List<string> workingtList, string input, int index = 0)
+        {
+            // On ne testera que les versions alternatives de chaque chiffres, en laissant les autres d'origine.
+            
+            Digitdictionary digitDictionary = new Digitdictionary();
+            Dictionary<char, char[]> swapDictionary = digitDictionary.swapDictionary;
+
+            if (index == input.Length)
             {
-                foreach (string workingString in workingtList)
-                {
-                    newWorkingList.Add(workingString);
-                }
+                return workingtList;
             }
 
-            return SwapAllNumbersinERR(newWorkingList, input, index + 1);
+            List<string> newWorkingList = new List<string>();
+            char currentChar = input[index];
+            
+                char[] possibleChars = swapDictionary[currentChar];
+
+                foreach (char possibleChar in possibleChars)
+                {                    
+                    string newString = input.Substring(0, index) + possibleChar + input.Substring(index + 1);
+                    workingtList.Add(newString);                   
+                }
+
+            
+
+            return Swap10NumbersinERR(workingtList, input, index + 1);
         }
     }
 }
